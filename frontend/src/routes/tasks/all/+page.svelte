@@ -1,8 +1,22 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
+	import { TaskService } from '$lib/services/task-service';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
+
+	async function handleDelete(taskId: number) {
+		if (confirm('Are you sure you want to delete this task?')) {
+			try {
+				await TaskService.deleteTask(taskId);
+				// Invalidate the task list to refresh the data
+				await invalidateAll();
+			} catch (error) {
+				console.error('Error deleting task:', error);
+				alert('Failed to delete task. Please try again.');
+			}
+		}
+	}
 </script>
 
 <div class="govuk-width-container">
@@ -12,11 +26,7 @@
 				<h1 class="govuk-heading-xl">Task List</h1>
 			</div>
 			<div class="govuk-grid-column-one-quarter">
-				<button
-					class="govuk-button"
-					type="button"
-					onclick={() => goto('/tasks/new')}
-				>
+				<button class="govuk-button" type="button" onclick={() => goto('/tasks/new')}>
 					Create New Task
 				</button>
 			</div>
@@ -30,7 +40,7 @@
 					<th scope="col" class="govuk-table__header">Description</th>
 					<th scope="col" class="govuk-table__header">Status</th>
 					<th scope="col" class="govuk-table__header">Due Date and Time</th>
-                    <th scope="col" class="govuk-table__header">Actions</th>
+					<th scope="col" class="govuk-table__header">Actions</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -43,6 +53,14 @@
 						<td class="govuk-table__cell">{task.due_date_display}</td>
 						<td class="govuk-table__cell">
 							<button class="govuk-button" type="button">Edit</button>
+							<button
+								type="submit"
+								class="govuk-button govuk-button--warning"
+								data-module="govuk-button"
+								onclick={() => handleDelete(task.id)}
+							>
+								Delete
+							</button>
 						</td>
 					</tr>
 				{/each}
