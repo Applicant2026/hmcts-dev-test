@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "rest_framework",
+    "apps.tasks.apps.TasksConfig",
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -119,3 +122,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# CORS Settings
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+# REST Framework Settings
+
+REST_FRAMEWORK = {
+      "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+      "PAGE_SIZE": 5,
+  }
