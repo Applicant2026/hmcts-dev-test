@@ -7,10 +7,19 @@ from .models import Task
 class TaskSerializer(serializers.ModelSerializer):
     """Serializer for Task model with custom validation for due_date."""
 
+    status_display = serializers.SerializerMethodField()
+    due_date_display = serializers.SerializerMethodField()
+
     class Meta:
         model = Task
-        fields = ["id", "title", "description", "status", "due_date", "created_at", "updated_at"]
-        read_only_fields = ["id", "created_at", "updated_at"]
+        fields = ["id", "title", "description", "status", "status_display", "due_date", "due_date_display", "created_at", "updated_at"]
+        read_only_fields = ["id", "status_display", "due_date_display", "created_at", "updated_at"]
+
+    def get_status_display(self, obj):
+        return obj.get_status_display()
+
+    def get_due_date_display(self, obj):
+        return obj.due_date.strftime("%-d %B %Y at %H:%M")
 
     def validate_status(self, value):
         if value not in Task.Status.values:
