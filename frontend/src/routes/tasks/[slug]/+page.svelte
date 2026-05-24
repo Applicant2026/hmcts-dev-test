@@ -1,16 +1,18 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-
 	import { TaskService } from '$lib/services/task-service';
 
 	let { data } = $props();
-	let editing = $state(false);
+
+	let created_at = $derived(data.task.created_at);
+	let updated_at = $derived(data.task.updated_at);
+	let formattedCreatedAt = $derived(created_at ? new Date(created_at).toLocaleString() : null);
+	let formattedUpdatedAt = $derived(updated_at ? new Date(updated_at).toLocaleString() : null);
 
 	async function handleDelete(taskId: number) {
 		if (confirm('Are you sure you want to delete this task?')) {
 			try {
 				await TaskService.deleteTask(taskId);
-				// Invalidate the task list to refresh the data
 				goto('/tasks/all');
 			} catch (error) {
 				console.error('Error deleting task:', error);
@@ -64,8 +66,8 @@
 		</dl>
 		<div class="govuk-grid-row">
 			<div class="govuk-grid-column-one-half">
-				<h2 class="govuk-body">Created At: {data.task.created_at}</h2>
-				<h2 class="govuk-body">Last Updated: {data.task.updated_at}</h2>
+				<h2 class="govuk-body">Created At: {formattedCreatedAt}</h2>
+				<h2 class="govuk-body">Last Updated: {formattedUpdatedAt}</h2>
 			</div>
 		</div>
 		<button
