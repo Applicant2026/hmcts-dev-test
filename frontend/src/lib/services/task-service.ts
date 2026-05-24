@@ -14,6 +14,19 @@ export const TaskService = {
         return response.json();
     },
 
+    async updateTask(taskId: number, task: any) {
+        const response = await fetch(`${PUBLIC_API_URL}/api/v1/tasks/${taskId}/`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(task)
+        });
+        if (!response.ok) {
+            const errorBody = await response.json().catch(() => null);
+            throw new Error(`Failed to update task: ${JSON.stringify(errorBody)}`);
+        }
+        return response.json();
+    },
+
     async deleteTask(taskId: number) {
         const response = await fetch(`${PUBLIC_API_URL}/api/v1/tasks/${taskId}/`, {
             method: 'DELETE'
