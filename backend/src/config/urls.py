@@ -22,6 +22,7 @@ from apps.tasks import views
 
 router = routers.DefaultRouter()
 router.register(r"tasks", views.TaskViewSet)
+router.register(r"task-statuses", views.TaskStatusAPIView, basename="task-statuses")
 
 urlpatterns = [
     path("api/v1/", include(router.urls)),
