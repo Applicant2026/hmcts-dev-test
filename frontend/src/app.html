@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" class="govuk-template">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<meta name="theme-color" content="#1d70b8" />
+		%sveltekit.head%
+	</head>
+	<body class="govuk-template__body">
+		<script>
+			document.body.className +=
+				' js-enabled' +
+				('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+		</script>
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
