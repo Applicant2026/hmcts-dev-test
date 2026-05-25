@@ -131,7 +131,4 @@ CORS_ALLOWED_ORIGINS = [
 
 # REST Framework Settings
 
-REST_FRAMEWORK = {
-      "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-      "PAGE_SIZE": 5,
-  }
+REST_FRAMEWORK = {}
