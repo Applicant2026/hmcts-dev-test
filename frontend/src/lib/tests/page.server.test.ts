@@ -2,7 +2,6 @@ import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { load } from '../../routes/tasks/all/+page.server';
 import type { Task } from '$lib/types/task';
 
-
 vi.mock('$env/static/public', () => ({
 	PUBLIC_API_URL: 'http://127.0.0.1:8000'
 }));
@@ -28,9 +27,7 @@ beforeEach(() => {
 
 describe('All Tasks Page Server Load Function', () => {
 	it('fetches tasks and returns them', async () => {
-		mockFetch.mockResolvedValue(
-			new Response(JSON.stringify(mockTask), { status: 200 })
-		);
+		mockFetch.mockResolvedValue(new Response(JSON.stringify(mockTask), { status: 200 }));
 
 		const result = await load({ fetch: mockFetch } as any);
 
@@ -39,9 +36,7 @@ describe('All Tasks Page Server Load Function', () => {
 	});
 
 	it('throws error when the API returns an error response', async () => {
-		mockFetch.mockResolvedValue(
-			new Response(null, { status: 500 })
-		);
+		mockFetch.mockResolvedValue(new Response(null, { status: 500 }));
 
 		await expect(load({ fetch: mockFetch } as any)).rejects.toThrow('Failed to fetch tasks');
 	});

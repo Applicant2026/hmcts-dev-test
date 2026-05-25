@@ -16,14 +16,14 @@
 		errors = new Map();
 
 		if (!title) {
-			errors.set('title', 'Enter a title')
-		};
+			errors.set('title', 'Enter a title');
+		}
 		if (!status) {
-			errors.set('status', 'Select a status')
-		};
+			errors.set('status', 'Select a status');
+		}
 		if (!dueDateTime) {
-			errors.set('due_date', 'Enter a due date and time')
-		};
+			errors.set('due_date', 'Enter a due date and time');
+		}
 
 		return errors.size === 0;
 	}

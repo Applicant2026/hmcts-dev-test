@@ -34,14 +34,14 @@
 
 	async function handleSubmit() {
 		if (!validate()) {
-			return
-		};
+			return;
+		}
 		try {
-			await TaskService.createTask({ 
+			await TaskService.createTask({
 				title,
 				description,
 				status,
-				due_date: formattedDueDateTime 
+				due_date: formattedDueDateTime
 			});
 			goto('/tasks/all');
 		} catch (error) {

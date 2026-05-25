@@ -2,7 +2,6 @@ import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { TaskService } from '../services/task-service';
 import type { Task, TaskPayload } from '$lib/types/task';
 
-
 vi.mock('$env/static/public', () => ({
 	PUBLIC_API_URL: 'http://127.0.0.1:8000'
 }));
@@ -35,9 +34,7 @@ beforeEach(() => {
 
 describe('Create Task', () => {
 	it('successfully sends task data to API and returns the created task', async () => {
-		mockFetch.mockResolvedValue(
-			new Response(JSON.stringify(mockTask), { status: 201 })
-		);
+		mockFetch.mockResolvedValue(new Response(JSON.stringify(mockTask), { status: 201 }));
 
 		const result = await TaskService.createTask(mockPayload);
 
@@ -62,9 +59,7 @@ describe('Update Task', () => {
 	it('successfully sends updated task data to API and returns the updated task', async () => {
 		const updatedPayload = { ...mockPayload, status: 'IN_PROGRESS' };
 		const updatedTask = { ...mockTask, status: 'IN_PROGRESS' };
-		mockFetch.mockResolvedValue(
-			new Response(JSON.stringify(updatedTask), { status: 200 })
-		);
+		mockFetch.mockResolvedValue(new Response(JSON.stringify(updatedTask), { status: 200 }));
 
 		const result = await TaskService.updateTask(mockTask.id, updatedPayload);
 
