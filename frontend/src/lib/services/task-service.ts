@@ -1,5 +1,5 @@
 import { PUBLIC_API_URL } from '$env/static/public';
-import type { Task, TaskPayload, TaskStatus } from '$lib/types/task';
+import type { Task, TaskPayload } from '$lib/types/task';
 
 export const TaskService = {
     async createTask(task: TaskPayload): Promise<Task> {
@@ -9,8 +9,7 @@ export const TaskService = {
             body: JSON.stringify(task)
         });
         if (!response.ok) {
-            const errorBody = await response.json().catch(() => null);
-            throw new Error(`Failed to create task: ${JSON.stringify(errorBody)}`);
+            throw new Error('Failed to create task');
         }
         return response.json();
     },
@@ -22,8 +21,7 @@ export const TaskService = {
             body: JSON.stringify(task)
         });
         if (!response.ok) {
-            const errorBody = await response.json().catch(() => null);
-            throw new Error(`Failed to update task: ${JSON.stringify(errorBody)}`);
+            throw new Error('Failed to update task');
         }
         return response.json();
     },
@@ -33,8 +31,7 @@ export const TaskService = {
             method: 'DELETE'
         });
         if (!response.ok) {
-            const errorBody = await response.json().catch(() => null);
-            throw new Error(`Failed to delete task: ${JSON.stringify(errorBody)}`);
+            throw new Error('Failed to delete task');
         }
     }
 };
