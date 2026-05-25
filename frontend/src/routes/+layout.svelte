@@ -50,6 +50,19 @@
 		</div>
 	</div>
 </header>
+<section
+	aria-label="Service information"
+	class="govuk-service-navigation"
+	data-module="govuk-service-navigation"
+>
+	<div class="govuk-width-container">
+		<div class="govuk-service-navigation__container">
+			<span class="govuk-service-navigation__service-name">
+				<h1 class="govuk-heading-m">Case Management System</h1>
+			</span>
+		</div>
+	</div>
+</section>
 <div class="govuk-width-container">
 	<main class="govuk-main-wrapper" id="main-content">
 		{@render children()}
@@ -119,5 +132,3 @@
 		</div>
 	</div>
 </footer>
-
-

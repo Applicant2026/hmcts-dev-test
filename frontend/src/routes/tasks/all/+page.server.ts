@@ -1,16 +1,15 @@
 import { PUBLIC_API_URL } from '$env/static/public';
 import type { PageServerLoad } from './$types';
+import type { Task } from '$lib/types/task';
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const res = await fetch(`${PUBLIC_API_URL}/api/v1/tasks/`);
+    const res = await fetch(`${PUBLIC_API_URL}/api/v1/tasks/`);
 
-	if (!res.ok) {
-		throw new Error('Failed to fetch tasks');
-	}
+    if (!res.ok) {
+        throw new Error('Failed to fetch tasks');
+    }
 
-	const tasks = await res.json();
+    const tasks: Task[] = await res.json();
 
-	return {
-		tasks
-	};
+    return { tasks };
 };

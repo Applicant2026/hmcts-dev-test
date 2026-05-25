@@ -1,13 +1,13 @@
 <script lang="ts">
-	let { data } = $props();
-
 	import { goto } from '$app/navigation';
 	import { TaskService } from '$lib/services/task-service';
 
-	let title = $state('');
-	let description = $state('');
-	let status = $state(null);
-	let dueDateTime = $state('');
+	let { data } = $props();
+
+	let title = $state(data.task.title);
+	let description = $state(data.task.description ?? '');
+	let status = $state(data.task.status);
+	let dueDateTime = $state(data.task.due_date.slice(0, 16));
 	let errors = $state(new Map<string, string>());
 
 	let formattedDueDateTime = $derived(dueDateTime ? `${dueDateTime}:00Z` : null);
@@ -16,60 +16,60 @@
 		errors = new Map();
 
 		if (!title) {
-			errors.set('title', 'Enter a title');
-		}
+			errors.set('title', 'Enter a title')
+		};
 		if (!status) {
-			errors.set('status', 'Select a status');
-		}
+			errors.set('status', 'Select a status')
+		};
 		if (!dueDateTime) {
-			errors.set('due_date', 'Enter a due date and time');
-		}
+			errors.set('due_date', 'Enter a due date and time')
+		};
 
 		return errors.size === 0;
 	}
 
-	function handleCancel() {
-		goto('/tasks/all');
-	}
-
 	async function handleSubmit() {
-		if (!validate()) {
-			return
-		};
+		if (!validate()) return;
 		try {
-			await TaskService.createTask({ 
+			await TaskService.updateTask(data.task.id, {
 				title,
 				description,
 				status,
-				due_date: formattedDueDateTime 
+				due_date: formattedDueDateTime
 			});
-			goto('/tasks/all');
+			goto(`/tasks/${data.task.id}`);
 		} catch (error) {
-			console.error('Error creating task:', error);
+			console.error('Error updating task:', error);
 		}
+	}
+
+	function handleCancel() {
+		goto(`/tasks/${data.task.id}`);
 	}
 </script>
 
-<div class="govuk-width-container">
-	{#if errors.size > 0}
-		<div class="govuk-error-summary" data-module="govuk-error-summary">
-			<div role="alert">
-				<h2 class="govuk-error-summary__title">There is a problem</h2>
-				<div class="govuk-error-summary__body">
-					<ul class="govuk-list govuk-error-summary__list">
-						{#each errors.values() as message}
-							<li>{message}</li>
-						{/each}
-					</ul>
+{#if data.task}
+	<div class="govuk-width-container">
+		<a href="/tasks/{data.task.id}" class="govuk-back-link">Back</a>
+
+		{#if errors.size > 0}
+			<div class="govuk-error-summary" data-module="govuk-error-summary">
+				<div role="alert">
+					<h2 class="govuk-error-summary__title">There is a problem</h2>
+					<div class="govuk-error-summary__body">
+						<ul class="govuk-list govuk-error-summary__list">
+							{#each errors.values() as message}
+								<li>{message}</li>
+							{/each}
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-	{/if}
-	<a href="/tasks/all/" class="govuk-back-link">Back</a>
-	<div class="govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+		{/if}
+
 		<fieldset class="govuk-fieldset">
 			<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-				<h1 class="govuk-fieldset__heading">Add a new task</h1>
+				<h1 class="govuk-fieldset__heading">Edit task</h1>
 			</legend>
 			<div class="govuk-form-group {errors.get('title') ? 'govuk-form-group--error' : ''}">
 				<label class="govuk-label" for="task-title">Title</label>
@@ -149,4 +149,11 @@
 			</div>
 		</fieldset>
 	</div>
-</div>
+{:else}
+	<div class="govuk-width-container">
+		<div class="govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+			<h1 class="govuk-heading-xl">Task not found</h1>
+			<p class="govuk-body">The task you are looking for does not exist.</p>
+		</div>
+	</div>
+{/if}
