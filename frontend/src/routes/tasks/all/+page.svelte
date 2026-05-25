@@ -6,7 +6,7 @@
 
 </script>
 
-{#if data.tasks.count === 0}
+{#if data.tasks.length === 0}
 	<div class="govuk-width-container">
 		<div class="govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 			<h1 class="govuk-heading-xl">No tasks found</h1>
@@ -21,7 +21,7 @@
 		<div class="govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 			<div class="govuk-grid-row">
 				<div class="govuk-grid-column-three-quarters">
-					<h1 class="govuk-heading-xl">Task List</h1>
+					<h1 class="govuk-heading-l">Task List</h1>
 				</div>
 				<div class="govuk-grid-column-one-quarter">
 					<button class="govuk-button" type="button" onclick={() => goto('/tasks/new')}>
@@ -34,17 +34,17 @@
 				<thead class="govuk-table__head">
 					<tr class="govuk-table__row">
 						<th scope="col" class="govuk-table__header">Task ID</th>
-						<th scope="col" class="govuk-table__header">Title</th>
+						<th scope="col" class="govuk-table__header govuk-!-width-one-half">Title</th>
 						<th scope="col" class="govuk-table__header">Status</th>
-						<th scope="col" class="govuk-table__header">Due At</th>
+						<th scope="col" class="govuk-table__header">Due</th>
 						<th scope="col" class="govuk-table__header">Actions</th>
 					</tr>
 				</thead>
 				<tbody class="govuk-table__body">
-					{#each data.tasks.results as task}
+					{#each data.tasks as task}
 						<tr class="govuk-table__row">
 							<th scope="row" class="govuk-table__header">{task.id}</th>
-							<td class="govuk-table__cell cell--truncate">{task.title}</td>
+							<td class="govuk-table__cell">{task.title}</td>
 							<td class="govuk-table__cell">{task.status_display}</td>
 							<td class="govuk-table__cell">{task.due_date_display}</td>
 							<td class="govuk-table__cell">
@@ -57,12 +57,3 @@
 		</div>
 	</div>
 {/if}
-
-<style>
-	:global(.cell--truncate) {
-		max-width: 200px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-</style>

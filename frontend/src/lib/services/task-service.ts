@@ -1,7 +1,8 @@
 import { PUBLIC_API_URL } from '$env/static/public';
+import type { Task, TaskPayload, TaskStatus } from '$lib/types/task';
 
 export const TaskService = {
-    async createTask(task: any) {
+    async createTask(task: TaskPayload): Promise<Task> {
         const response = await fetch(`${PUBLIC_API_URL}/api/v1/tasks/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -14,7 +15,7 @@ export const TaskService = {
         return response.json();
     },
 
-    async updateTask(taskId: number, task: any) {
+    async updateTask(taskId: number, task: TaskPayload): Promise<Task> {
         const response = await fetch(`${PUBLIC_API_URL}/api/v1/tasks/${taskId}/`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -27,7 +28,7 @@ export const TaskService = {
         return response.json();
     },
 
-    async deleteTask(taskId: number) {
+    async deleteTask(taskId: number): Promise<void> {
         const response = await fetch(`${PUBLIC_API_URL}/api/v1/tasks/${taskId}/`, {
             method: 'DELETE'
         });

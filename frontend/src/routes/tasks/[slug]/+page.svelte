@@ -4,10 +4,10 @@
 
 	let { data } = $props();
 
-	let created_at = $derived(data.task.created_at);
-	let updated_at = $derived(data.task.updated_at);
-	let formattedCreatedAt = $derived(created_at ? new Date(created_at).toLocaleString() : null);
-	let formattedUpdatedAt = $derived(updated_at ? new Date(updated_at).toLocaleString() : null);
+	let createdAt = $derived(data.task.created_at);
+	let updatedAt = $derived(data.task.updated_at);
+	let formattedCreatedAt = $derived(createdAt ? new Date(createdAt).toLocaleString() : null);
+	let formattedUpdatedAt = $derived(updatedAt ? new Date(updatedAt).toLocaleString() : null);
 
 	async function handleDelete(taskId: number) {
 		if (confirm('Are you sure you want to delete this task?')) {
@@ -55,7 +55,7 @@
 				</dd>
 			</div>
 			<div class="govuk-summary-list__row">
-				<dt class="govuk-summary-list__key">Due At</dt>
+				<dt class="govuk-summary-list__key">Due</dt>
 				<dd class="govuk-summary-list__value">{data.task.due_date_display}</dd>
 				<dd class="govuk-summary-list__actions">
 					<a class="govuk-link" href="/tasks/{data.task.id}/edit"
